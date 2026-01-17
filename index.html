@@ -465,10 +465,7 @@
     };
     const RAID_SLOT_NAMES = ["Weapon", "Helmet", "Chest", "Gloves", "Boots", "Bracelet (L)", "Bracelet (R)"];
 
-
-};
-    };
-    
+   
     const GEM_COLORS = [
         { name: "-", stat: null },
         { name: "Blue (Haste)", stat: "Haste" },
@@ -548,7 +545,7 @@
 
             const raidDiv = document.createElement("div");
             raidDiv.style.textAlign = "center";
-            /*if (RAID_SLOT_NAMES.includes(slot)) {
+            if (RAID_SLOT_NAMES.includes(slot)) {
                 const chk = document.createElement("input");
                 chk.type = "checkbox";
                 chk.id = "raid-" + index;
