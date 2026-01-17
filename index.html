@@ -1079,29 +1079,31 @@
 
             let v1=0, v2=0, v3=0;
             
+            // --- LÓGICA CORRIGIDA DOS VALORES ---
             if(slot === "Weapon") {
                 if(isRaid) {
-                    v1 = 1966; v2 = 0; v3 = 0; }
-                    // Pega o bônus da classe selecionada
+                    v1 = 1966; v2 = 0; v3 = 0; 
+                    // Pega o bônus da classe
                     const specName = document.getElementById("class-spec").value;
                     window.currentRaidBonus = RAID_SPECIAL_DATA[specName] || null;
                 } else {
-                    v1 = 1512; v2 = 756; v3 = 453; }
-                    window.currentRaidBonus = null; // Desativa se não for Raid
+                    v1 = 1512; v2 = 756; v3 = 453; 
+                    window.currentRaidBonus = null; // Remove bônus se desmarcar Raid
                 }
-             } else if (isRaid) {
-                // Valores para ARMADURAS de Raid (Se existirem)
+            } else if (isRaid) {
+                // Armaduras de Raid
                 v1 = 200; v2 = 200; v3 = 60;
             } else {
-                // Valores para ITENS NORMAIS (Não Raid)
+                // Armaduras Normais
                 v1 = 756; v2 = 378; v3 = 226;
+            }
 
+            // Soma os valores aos totais
             if(s1 && gearTotal[s1] !== undefined) gearTotal[s1] += v1;
             if(s2 && gearTotal[s2] !== undefined) gearTotal[s2] += v2;
             if(s3 && gearTotal[s3] !== undefined) gearTotal[s3] += v3;
 
-            
-
+            // Soma Lendários (Apenas se não for Raid)
             if(!isRaid) {
                 const lType = document.getElementById("leg-type-" + index).value;
                 const lVal = parseFloat(document.getElementById("leg-val-" + index).value) || 0;
@@ -1110,6 +1112,7 @@
             }
         });
 
+        // Processa os Imagines
         const processImagine = (num) => {
             const type = document.getElementById("img-type-" + num).value;
             const val = parseInt(document.getElementById("img-lvl-" + num).value) || 0;
@@ -1117,6 +1120,7 @@
         };
         processImagine(1); processImagine(2);
 
+        // Soma os totais finais com valores base
         let finalTotal = { ...gearTotal };
         let baseVers = parseFloat(document.getElementById('base-vers').value) || 0;
         let baseMast = parseFloat(document.getElementById('base-mast').value) || 0;
@@ -1132,25 +1136,28 @@
         finalTotal["Crit"] += baseCrit;
         finalTotal["Luck"] += baseLuck;
 
+        // Atualiza display dos valores brutos
         document.getElementById("raw-vers").innerText = finalTotal["Versatility"].toFixed(0);
         document.getElementById("raw-mast").innerText = finalTotal["Mastery"].toFixed(0);
         document.getElementById("raw-haste").innerText = finalTotal["Haste"].toFixed(1);
         document.getElementById("raw-crit").innerText = finalTotal["Crit"].toFixed(0);
         document.getElementById("raw-luck").innerText = finalTotal["Luck"].toFixed(0);
 
+        // Calcula as porcentagens (Fórmulas Season 2)
         let vPct = (finalTotal["Versatility"] / (finalTotal["Versatility"] + 11200)) * 100;
         let mPct = ((finalTotal["Mastery"] / (finalTotal["Mastery"] + 20000)) * 100) + 6;
         let hPct = (finalTotal["Haste"] / (finalTotal["Haste"] + 20000)) * 100;
         let cPct = ((finalTotal["Crit"] / (finalTotal["Crit"] + 20000)) * 100) + 5;
         let lPct = ((finalTotal["Luck"] / (finalTotal["Luck"] + 16230)) * 100) + 5;
 
+        // Atualiza o texto na tela
         document.getElementById('r-vers').innerText = isNaN(vPct) ? "0%" : vPct.toFixed(2) + "%";
         document.getElementById('r-mast').innerText = isNaN(mPct) ? "6.00%" : mPct.toFixed(2) + "%";
         document.getElementById('r-haste').innerText = isNaN(hPct) ? "0%" : hPct.toFixed(2) + "%";
         document.getElementById('r-crit').innerText = isNaN(cPct) ? "5.00%" : cPct.toFixed(2) + "%";
         document.getElementById('r-luck').innerText = isNaN(lPct) ? "5.00%" : lPct.toFixed(2) + "%";
 
-// --- INÍCIO DO CÓDIGO DO PASSO 3 PARTE B ---
+        // --- EXIBIÇÃO DO BÔNUS DE RAID (Season 2) ---
         const raidRow = document.getElementById('raid-special-row');
         const specialBonus = window.currentRaidBonus;
 
@@ -1160,7 +1167,7 @@
             let suffix = specialBonus.type === "percent" ? "%" : "";
             document.getElementById('raid-special-val').innerText = "+" + specialBonus.value + suffix;
             
-            // Soma o bônus nas barras de status se for Luck ou Versatility
+            // Aplica bônus nas barras de status (Luck/Versatility)
             if (specialBonus.label === "Luck") {
                 lPct += specialBonus.value;
                 document.getElementById('r-luck').innerText = lPct.toFixed(2) + "%";
@@ -1172,8 +1179,8 @@
         } else {
             raidRow.style.display = 'none';
         }
-        // --- FIM DO CÓDIGO ---
-    
+
+        // Exibição de Lendários
         if(legBonuses["Attack Speed"] > 0 || legBonuses["Cast Speed"] > 0) {
             document.getElementById('legendary-summary').style.display = 'block';
             document.getElementById('leg-atk').innerText = "+" + legBonuses["Attack Speed"] + "%";
