@@ -364,10 +364,10 @@
 
         <div class="legendary-note">
             <strong>Gear Values:</strong><br>
-            • <strong>Raid Weapon:</strong> ??? Primary / ??? Secondary (No Reforge, No Legendary)<br>
-            • <strong>Standard Weapon:</strong> 1080 Primary / 540 Secondary / 324 Reforge<br>
+            • <strong>Raid Weapon:</strong> 1966 Primary / 1966 Secondary (No Reforge, No Legendary)<br>
+            • <strong>Standard Weapon:</strong> 1512 Primary / 756 Secondary / 453 Reforge<br>
             • <strong>Raid Armor:</strong> ??? Primary / ??? Secondary / ??? Reforge (No Legendary)<br>
-            • <strong>Standard Armor:</strong> 540 Primary / 270 Secondary / 162 Reforge
+            • <strong>Standard Armor:</strong> 756 Primary / 378 Secondary / 226 Reforge
         </div>
     </div>
 
@@ -530,7 +530,7 @@
                 };
                 raidDiv.appendChild(chk);
             }
-            */
+            
             row.appendChild(raidDiv);
 
             for(let i=1; i<=3; i++) {
@@ -988,12 +988,12 @@
 
             let v1=0, v2=0, v3=0;
             if(slot === "Weapon") {
-                if(isRaid) { v1=384; v2=384; v3=0; }
-                else { v1=1080; v2=540; v3=324; }
+                if(isRaid) { v1=1966; v2=0; v3=0; }
+                else { v1=1512; v2=756; v3=453; }
             } else if (isRaid) {
                 v1=200; v2=200; v3=60;
             } else {
-                v1=540; v2=270; v3=162;
+                v1=756; v2=378; v3=226;
             }
 
             if(gear.p) raw[gear.p] += v1;
@@ -1052,11 +1052,11 @@
             let v1=0, v2=0, v3=0;
             if(slot === "Weapon") {
                 if(isRaid) { v1 = 384; v2 = 384; v3 = 0; } 
-                else { v1 = 1080; v2 = 540; v3 = 324; }
+                else { v1 = 1512; v2 = 756; v3 = 453; }
             } else if (isRaid) {
                 v1 = 200; v2 = 200; v3 = 60;
             } else {
-                v1 = 540; v2 = 270; v3 = 162;
+                v1 = 756; v2 = 378; v3 = 226;
             }
 
             if(s1 && gearTotal[s1] !== undefined) gearTotal[s1] += v1;
