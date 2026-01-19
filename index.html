@@ -162,8 +162,8 @@
         <h2>Gear Stat Planner | Level 140 </h2>
         
         <div class="tab-container">
-            <button class="tab-btn active" onclick="ui.switchTab('planner')">Manual Planner</button>
-            <button class="tab-btn" onclick="ui.switchTab('optimizer')">Auto-Optimizer</button>
+            <button id="btn-planner" class="tab-btn active" onclick="ui.switchTab('planner')">Manual Planner</button>
+            <button id="btn-optimizer" class="tab-btn" onclick="ui.switchTab('optimizer')">Auto-Optimizer</button>
         </div>
 
         <div class="controls-row">
@@ -298,7 +298,6 @@
         SLOTS: ["Weapon", "Helmet", "Chest", "Gloves", "Boots", "Earrings", "Necklace", "Ring", "Bracelet (L)", "Bracelet (R)", "Charm"],
         RAID_SLOTS: ["Weapon", "Helmet", "Chest", "Gloves", "Boots", "Bracelet (L)", "Bracelet (R)"],
         
-        // --- SEÇÃO DE CONFIGURAÇÃO DOS IMAGINES (ATUALIZADA) ---
         IMAGINE: { 
             SLOT_IDS: ['1', '2'],
             OPTIONS: {
@@ -308,7 +307,6 @@
                 "Bluespine Lizard (Versatility)": { stat: "Versatility", vals: [2016, 2615, 3214, 3813, 4412, 5040] }
             }
         },
-        // ------------------------------------------
 
         LEGENDARY: ["-", "Attack Speed", "Cast Speed", "ATK/MATK", "Dmg Bonus", "Shield", "Healing Output", "Res Break", "All Res", "Armor", "Max HP"],
         RAID_BONUS: {
@@ -336,11 +334,11 @@
         { name: "Blackfire Foxen", slots: ["Weapon","Earrings","Necklace","Ring"], stats: { 1: {Endurance:80, Agility:25}, 2: {}, 3: {} } },
         
         // Armor
-        { name: "Flamehorn", slots: ["Helmet","Chest","Gloves","Boots"], stats: { 1: {Versatility:500}, 2: {}, 3: {} } },
-        { name: "Blackstone Captain", slots: ["Helmet","Chest","Gloves","Boots"], stats: { 1: {Mastery:500}, 2: {}, 3: {} } },
-        { name: "Cabbage Kingpin", slots: ["Helmet","Chest","Gloves","Boots"], stats: { 1: {Luck:500}, 2: {}, 3: {} } },
-        { name: "Crimson Foxen", slots: ["Helmet","Chest","Gloves","Boots"], stats: { 1: {Haste:500}, 2: {}, 3: {} } },
-        { name: "Goblin Chief", slots: ["Helmet","Chest","Gloves","Boots"], stats: { 1: {Crit:500}, 2: {}, 3: {} } },
+        { name: "Flamehorn (Legendary)", slots: ["Helmet","Chest","Gloves","Boots"], stats: { 1: {Versatility:500}, 2: {}, 3: {} } },
+        { name: "Blackstone Captain (Leg)", slots: ["Helmet","Chest","Gloves","Boots"], stats: { 1: {Mastery:500}, 2: {}, 3: {} } },
+        { name: "Cabbage Kingpin (Leg)", slots: ["Helmet","Chest","Gloves","Boots"], stats: { 1: {Luck:500}, 2: {}, 3: {} } },
+        { name: "Crimson Foxen (Leg)", slots: ["Helmet","Chest","Gloves","Boots"], stats: { 1: {Haste:500}, 2: {}, 3: {} } },
+        { name: "Goblin Chief (Leg)", slots: ["Helmet","Chest","Gloves","Boots"], stats: { 1: {Crit:500}, 2: {}, 3: {} } },
         { name: "Cabbage Blaster", slots: ["Helmet","Chest","Gloves","Boots"], stats: { 1: {Versatility:200}, 2: {}, 3: {} } },
         { name: "Glimmer Caprahorn", slots: ["Helmet","Chest","Gloves","Boots"], stats: { 1: {Mastery:200}, 2: {}, 3: {} } },
         { name: "Cabbage Tough Guy", slots: ["Helmet","Chest","Gloves","Boots"], stats: { 1: {Luck:200}, 2: {}, 3: {} } },
@@ -373,13 +371,12 @@
         { name: "Goblin Guard", slots: ["Bracelet (L)","Bracelet (R)","Charm"], stats: { 1: {Agility:12, Mastery:140}, 2:{}, 3:{} } }
     ];
 
-    // --- NOVA FUNCIONALIDADE: ADICIONAR STATUS AO NOME ---
-    // Itera sobre todos os sigils e adiciona (Status) se tiver apenas 1 status principal
+    // --- RENOMEAR SIGILS (Protegido contra duplicação) ---
     SIGIL_DB.forEach(sigil => {
         const statsAtLvl1 = sigil.stats[1];
         if (statsAtLvl1) {
             const statKeys = Object.keys(statsAtLvl1);
-            if (statKeys.length === 1) {
+            if (statKeys.length === 1 && !sigil.name.includes("(")) {
                 sigil.name = `${sigil.name} (${statKeys[0]})`;
             }
         }
@@ -395,8 +392,6 @@
             $('dynamic-footer-note').innerHTML = GAME_DATA.TEXT.NOTES;
             $('class-spec').innerHTML = Object.keys(GAME_DATA.SPECS).map(s => createOpt(s)).join('');
             
-            // --- CORREÇÃO AQUI ---
-            // Agora pegamos as chaves do objeto OPTIONS e geramos níveis genéricos (0-5)
             const imagineTypes = Object.keys(GAME_DATA.IMAGINE.OPTIONS);
             let levelOptions = "";
             for(let i=0; i<6; i++) {
@@ -407,15 +402,11 @@
                 $(`img-type-${n}`).innerHTML = createOpt("", "- None -") + imagineTypes.map(t => createOpt(t, t)).join('');
                 $(`img-lvl-${n}`).innerHTML = levelOptions;
             });
-            // ---------------------
 
-            // Generate Grid
             const container = $('gear-container');
             container.innerHTML = GAME_DATA.SLOTS.map((slot, i) => {
                 const isRaidSlot = GAME_DATA.RAID_SLOTS.includes(slot);
                 const raidCheck = isRaidSlot ? `<input type="checkbox" id="raid-${i}" onchange="ui.toggleRaid(${i}, '${slot}')">` : '';
-                
-                // Filter Sigils for this slot
                 const slotSigils = SIGIL_DB.filter(s => s.slots.includes(slot));
                 const sigilOpts = `<option value="">-</option>` + slotSigils.map(s => createOpt(s.name)).join('');
 
@@ -442,10 +433,16 @@
         },
 
         switchTab: (tab) => {
+            // Remove active class from all contents and buttons
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            // Activate requested content
             $(`tab-${tab}`).classList.add('active');
-            event.target.classList.add('active');
+            
+            // Activate corresponding button explicitly by ID
+            if(tab === 'planner') $('btn-planner').classList.add('active');
+            if(tab === 'optimizer') $('btn-optimizer').classList.add('active');
         },
 
         toggleRaid: (idx) => {
@@ -563,7 +560,7 @@
                 }
             });
 
-            // 4. Agility to Haste Conversion (Fixed: 0.45)
+            // 4. Agility to Haste Conversion
             total.Haste += (baseAgi * 0.45);
 
             // 5. Percent Bonuses
@@ -587,10 +584,9 @@
             $('r-crit').innerText = cPct.toFixed(2) + "%";
             $('r-luck').innerText = lPct.toFixed(2) + "%";
 
-            // Extras Display (Unified)
+            // Extras Display
             let extraHTML = `<div style="color:var(--highlight); font-weight:bold; margin-bottom:8px; border-bottom:1px solid #333; padding-bottom:3px;">Extra Bonuses</div>`;
             
-            // Add Raid Bonus to List
             if(raidBonus) {
                 let valStr = `+${raidBonus.v}${raidBonus.t === 'p' ? '%' : ''}`;
                 extraHTML += `<div style="color:var(--text-main); font-size:0.9em; display:flex; justify-content:space-between; margin-bottom:4px;"><span>Raid ${raidBonus.l}:</span> <span style="color:var(--accent); font-weight:bold;">${valStr}</span></div>`;
@@ -607,7 +603,7 @@
         }
     };
 
-    // --- OPTIMIZER (Simplified) ---
+    // --- OPTIMIZER ---
     const optimizer = {
         run: () => {
             const targets = {
@@ -616,7 +612,7 @@
             };
             const ctx = {
                 bV: parseFloat($('base-vers').value)||0, bM: parseFloat($('base-mast').value)||0,
-                bH: (parseFloat($('base-haste').value)||0) + ((parseFloat($('opt-agi').value)||0)*0.45), // Fixed ratio
+                bH: (parseFloat($('base-haste').value)||0) + ((parseFloat($('opt-agi').value)||0)*0.45),
                 bC: parseFloat($('base-crit').value)||0, bL: parseFloat($('base-luck').value)||0,
                 spec: $('class-spec').value, bonus: GAME_DATA.RAID_BONUS[$('class-spec').value]
             };
@@ -651,7 +647,6 @@
         },
         calc: (layout, ctx) => {
             let raw = { Versatility: ctx.bV, Mastery: ctx.bM, Haste: ctx.bH, Crit: ctx.bC, Luck: ctx.bL };
-            // Calc Imagines based on stored Keys and Index
             layout.img.forEach(im => { 
                 const data = GAME_DATA.IMAGINE.OPTIONS[im.key];
                 if(data) raw[data.stat] += data.vals[im.idx];
@@ -704,7 +699,6 @@
                 layout.gear[i] = { raid: isRaid, p, s, r, locked: false };
             });
             
-            // Generate Imagines (Key + Index)
             const keys = Object.keys(GAME_DATA.IMAGINE.OPTIONS);
             if(optImg) {
                 layout.img = GAME_DATA.IMAGINE.SLOT_IDS.map(() => ({ 
@@ -737,7 +731,6 @@
                 if(!(idx===0 && g.raid)) g.r = GAME_DATA.STATS[Math.floor(Math.random()*5)];
             }
             if(optImg && Math.random() < 0.1) {
-                // Mutate Imagine
                 const keys = Object.keys(GAME_DATA.IMAGINE.OPTIONS);
                 let im = l.img[Math.floor(Math.random()*l.img.length)];
                 if(Math.random()<0.5) im.key = keys[Math.floor(Math.random()*keys.length)];
@@ -748,7 +741,8 @@
             l.gear.forEach((g, i) => {
                 if($(`raid-${i}`)) { $(`raid-${i}`).checked = g.raid; ui.toggleRaid(i); }
                 $(`s1-${i}`).value = g.p; logic.updateRow(i);
-                $(`s2-${i}`).value = g.s; $(`s3-${i}`).value = g.r;
+                $(`s2-${i}`).value = g.s; logic.updateRow(i); // Update again to clean options
+                $(`s3-${i}`).value = g.r;
             });
             if(l.img.length) {
                 l.img.forEach((im, i) => {
