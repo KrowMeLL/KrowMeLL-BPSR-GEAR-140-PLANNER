@@ -151,6 +151,7 @@
         .imagine-title { color: var(--accent); font-weight: bold; margin-bottom: 15px; border-bottom: 1px solid #444; padding-bottom: 5px; }
 
         .footer-credits { width: 100%; text-align: center; margin-top: 30px; padding-top: 15px; border-top: 1px solid #333; color: #555; font-size: 0.75em; text-transform: uppercase; letter-spacing: 1px; }
+        .footer-sub { color: #444; font-size: 0.7em; margin-top: 5px; font-weight: bold; }
         .dynamic-note { font-size: 0.8em; color: #888; margin-top: 20px; background: #121319; padding: 15px; border-radius: var(--radius); border-left: 3px solid #333; line-height: 1.6; }
     </style>
 </head>
@@ -158,7 +159,7 @@
 
 <div class="main-wrapper">
     <div class="panel planner-panel">
-        <h2>BPSR | GEAR STAT PLANNER | LEVEL 140 </h2>
+        <h2>Gear Stat Planner | Level 140 </h2>
         
         <div class="tab-container">
             <button class="tab-btn active" onclick="ui.switchTab('planner')">Manual Planner</button>
@@ -242,7 +243,10 @@
         </div>
 
         <div class="dynamic-note" id="dynamic-footer-note"></div>
-        <div class="footer-credits" id="credits-area"></div>
+        <div class="footer-credits">
+            <div id="credits-area"></div>
+            <div class="footer-sub">Supported by: Boss the Block Father</div>
+        </div>
     </div>
 
     <div class="panel calc-panel">
@@ -289,12 +293,12 @@
 <script>
     // --- DATA CONFIGURATION ---
     const GAME_DATA = {
-        TEXT: { CREDITS: "Produced by Luxxos // Updated by: RaoH", NOTES: `<strong>Gear Values:</strong><br>• Raid Weapon: 1966 Primary / 1966 Secondary (No Ref)<br>• Raid Armor: 1512 Primary / 756 Secondary / 453 Reforge<br>• Std Weapon: 756 Primary / 756 Secondary / 226 Reforge<br>• Std Armor: 756 Primary / 378 Secondary / 226 Reforge` },
+        TEXT: { CREDITS: "Produced by Luxxos // Updated by: RaoH", NOTES: `<strong>Gear Values:</strong><br>• Raid Weapon: 2480 Primary / 2480 Secondary / No Reforge<br>• Raid Armor: 954 Primary / 954 Secondary / 286 Reforge <br>• Standard Weapon: 1908 Primary /954 Secondary / 572 Reforge<br>• Standard Armor: 954 Primary / 477 Secondary / 286 Reforge` },
         STATS: ["Versatility", "Mastery", "Haste", "Crit", "Luck"],
         SLOTS: ["Weapon", "Helmet", "Chest", "Gloves", "Boots", "Earrings", "Necklace", "Ring", "Bracelet (L)", "Bracelet (R)", "Charm"],
         RAID_SLOTS: ["Weapon", "Helmet", "Chest", "Gloves", "Boots", "Bracelet (L)", "Bracelet (R)"],
         
-        // --- SEÇÃO DE CONFIGURAÇÃO DOS IMAGINES (NOMES ATUALIZADOS) ---
+        // --- SEÇÃO DE CONFIGURAÇÃO DOS IMAGINES (ATUALIZADA) ---
         IMAGINE: { 
             SLOT_IDS: ['1', '2'],
             OPTIONS: {
@@ -304,7 +308,7 @@
                 "Bluespine Lizard (Versatility)": { stat: "Versatility", vals: [2016, 2615, 3214, 3813, 4412, 5040] }
             }
         },
-        // -------------------------------------------------------------
+        // ------------------------------------------
 
         LEGENDARY: ["-", "Attack Speed", "Cast Speed", "ATK/MATK", "Dmg Bonus", "Shield", "Healing Output", "Res Break", "All Res", "Armor", "Max HP"],
         RAID_BONUS: {
@@ -379,15 +383,9 @@
             $('dynamic-footer-note').innerHTML = GAME_DATA.TEXT.NOTES;
             $('class-spec').innerHTML = Object.keys(GAME_DATA.SPECS).map(s => createOpt(s)).join('');
             
-            // Gerar Options para os Imagines
-            const imgOptions = Object.keys(GAME_DATA.IMAGINE.OPTIONS);
-            GAME_DATA.IMAGINE.SLOT_IDS.forEach(n => {
-                // Preenche o Select de Tipos
-                $(`img-type-${n}`).innerHTML = createOpt("", "- None -") + imgOptions.map(k => createOpt(k, k)).join('');
-                // Preenche o Select de Niveis (apenas T0, T1..., o valor depende do tipo escolhido)
-                let lvlHtml = "";
-                for(let i=0; i<6; i++) lvlHtml += createOpt(i, `Tier ${i}`); // Value é o Index (0 a 5)
-                $(`img-lvl-${n}`).innerHTML = lvlHtml;
+            ['1', '2'].forEach(n => {
+                $(`img-type-${n}`).innerHTML = createOpt("", "- None -") + GAME_DATA.IMAGINE.TYPES.map(t => createOpt(t, `Img (${t})`)).join('');
+                $(`img-lvl-${n}`).innerHTML = GAME_DATA.IMAGINE.VALS.map((v, i) => createOpt(v, `Lv ${i} (+${v})`)).join('');
             });
 
             // Generate Grid
@@ -395,6 +393,8 @@
             container.innerHTML = GAME_DATA.SLOTS.map((slot, i) => {
                 const isRaidSlot = GAME_DATA.RAID_SLOTS.includes(slot);
                 const raidCheck = isRaidSlot ? `<input type="checkbox" id="raid-${i}" onchange="ui.toggleRaid(${i}, '${slot}')">` : '';
+                
+                // Filter Sigils for this slot
                 const slotSigils = SIGIL_DB.filter(s => s.slots.includes(slot));
                 const sigilOpts = `<option value="">-</option>` + slotSigils.map(s => createOpt(s.name)).join('');
 
@@ -532,16 +532,13 @@
                 }
             });
 
-            // 3. Imagines (Updated Logic for multiple types)
+            // 3. Imagines
             GAME_DATA.IMAGINE.SLOT_IDS.forEach(n => {
                 const typeKey = $(`img-type-${n}`).value;
-                const lvlIdx = parseInt($(`img-lvl-${n}`).value); // Now returns 0-5
-                
+                const lvlIdx = parseInt($(`img-lvl-${n}`).value);
                 if(typeKey && !isNaN(lvlIdx)) {
                     const imgData = GAME_DATA.IMAGINE.OPTIONS[typeKey];
-                    if(imgData) {
-                        total[imgData.stat] += imgData.vals[lvlIdx];
-                    }
+                    if(imgData) total[imgData.stat] += imgData.vals[lvlIdx];
                 }
             });
 
@@ -589,7 +586,7 @@
         }
     };
 
-    // --- OPTIMIZER (Updated for new Imagine Structure) ---
+    // --- OPTIMIZER (Simplified) ---
     const optimizer = {
         run: () => {
             const targets = {
@@ -598,7 +595,7 @@
             };
             const ctx = {
                 bV: parseFloat($('base-vers').value)||0, bM: parseFloat($('base-mast').value)||0,
-                bH: (parseFloat($('base-haste').value)||0) + ((parseFloat($('opt-agi').value)||0)*0.45),
+                bH: (parseFloat($('base-haste').value)||0) + ((parseFloat($('opt-agi').value)||0)*0.45), // Fixed ratio
                 bC: parseFloat($('base-crit').value)||0, bL: parseFloat($('base-luck').value)||0,
                 spec: $('class-spec').value, bonus: GAME_DATA.RAID_BONUS[$('class-spec').value]
             };
