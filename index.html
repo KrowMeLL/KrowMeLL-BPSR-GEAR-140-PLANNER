@@ -395,10 +395,19 @@
             $('dynamic-footer-note').innerHTML = GAME_DATA.TEXT.NOTES;
             $('class-spec').innerHTML = Object.keys(GAME_DATA.SPECS).map(s => createOpt(s)).join('');
             
+            // --- CORREÇÃO AQUI ---
+            // Agora pegamos as chaves do objeto OPTIONS e geramos níveis genéricos (0-5)
+            const imagineTypes = Object.keys(GAME_DATA.IMAGINE.OPTIONS);
+            let levelOptions = "";
+            for(let i=0; i<6; i++) {
+                levelOptions += createOpt(i, `Level ${i+1}`);
+            }
+
             ['1', '2'].forEach(n => {
-                $(`img-type-${n}`).innerHTML = createOpt("", "- None -") + GAME_DATA.IMAGINE.TYPES.map(t => createOpt(t, `Img (${t})`)).join('');
-                $(`img-lvl-${n}`).innerHTML = GAME_DATA.IMAGINE.VALS.map((v, i) => createOpt(v, `Lv ${i} (+${v})`)).join('');
+                $(`img-type-${n}`).innerHTML = createOpt("", "- None -") + imagineTypes.map(t => createOpt(t, t)).join('');
+                $(`img-lvl-${n}`).innerHTML = levelOptions;
             });
+            // ---------------------
 
             // Generate Grid
             const container = $('gear-container');
