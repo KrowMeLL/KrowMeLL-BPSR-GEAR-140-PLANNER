@@ -264,9 +264,9 @@
                     <thead>
                         <tr>
                             <th style="width:25%">Equipment Slot</th>
-                            <th style="width:25%; color:var(--gold)">Strength</th>
-                            <th style="width:25%; color:#a9cce3">Intelligence</th>
-                            <th style="width:25%; color:#f9e79f">Agility</th>
+                            <th style="width:25%; color:var(--gold)">Strength (Banned)</th>
+                            <th style="width:25%; color:#a9cce3">Intelligence (Banned)</th>
+                            <th style="width:25%; color:#f9e79f">Agility (Banned)</th>
                         </tr>
                     </thead>
                     <tbody id="res-body"></tbody>
@@ -391,41 +391,321 @@ const CFG = {
     SPECS: { "Vanguard": ["Haste", "Mastery"], "Skyward": ["Crit", "Luck"], "Shield": ["Haste", "Mastery"], "Recovery": ["Crit", "Mastery"], "Iado": ["Crit", "Mastery"], "Moonstrike": ["Haste", "Luck"], "Icicle": ["Crit", "Luck"], "Frostbeam": ["Haste", "Mastery"], "Smite": ["Mastery", "Luck"], "Lifebind": ["Haste", "Mastery"], "Earthfort": ["Mastery", "Versatility"], "Block": ["Mastery", "Luck"], "Wildpack": ["Haste", "Mastery"], "Falconry": ["Crit", "Haste"], "Dissonance": ["Haste", "Luck"], "Concerto": ["Haste", "Crit"] },
 
     SIGILS: [
-        { n: "Basilisk Sigil", s: ["Weapon"], d: { 1: {"All Element Attack": 70} } },
-        { n: "Bluespine Lizard", s: ["Weapon"], d: { 1: {"All Element Attack": 20} } },
-        { n: "Emerald Caprahorn", s: ["Weapon","Earrings","Necklace","Ring"], d: { 1: {Endurance:80, Strength:25} } },
-        { n: "Blackstone Commander", s: ["Weapon","Earrings","Necklace","Ring"], d: { 1: {Endurance:80, Intellect:25} } },
-        { n: "Blackfire Foxen", s: ["Weapon","Earrings","Necklace","Ring"], d: { 1: {Endurance:80, Agility:25} } },
-        { n: "Flamehorn", s: ["Helmet","Chest","Gloves","Boots"], d: { 1: {Versatility:500} } },
-        { n: "Blackstone Captain", s: ["Helmet","Chest","Gloves","Boots"], d: { 1: {Mastery:500} } },
-        { n: "Cabbage Kingpin", s: ["Helmet","Chest","Gloves","Boots"], d: { 1: {Luck:500} } },
-        { n: "Crimson Foxen", s: ["Helmet","Chest","Gloves","Boots"], d: { 1: {Haste:500} } },
-        { n: "Goblin Chief", s: ["Helmet","Chest","Gloves","Boots"], d: { 1: {Crit:500} } },
-        { n: "Cabbage Blaster", s: ["Helmet","Chest","Gloves","Boots"], d: { 1: {Versatility:200} } },
-        { n: "Glimmer Caprahorn", s: ["Helmet","Chest","Gloves","Boots"], d: { 1: {Mastery:200} } },
-        { n: "Cabbage Tough Guy", s: ["Helmet","Chest","Gloves","Boots"], d: { 1: {Luck:200} } },
-        { n: "Wasteland Foxen", s: ["Helmet","Chest","Gloves","Boots"], d: { 1: {Haste:200} } },
-        { n: "Cabbage Killer", s: ["Helmet","Chest","Gloves","Boots"], d: { 1: {Crit:200} } },
-        { n: "Foxen", s: ["Earrings","Necklace","Ring"], d: { 1: {Endurance:50, Agility:15} } },
-        { n: "Cabbage Hunter", s: ["Earrings","Necklace","Ring"], d: { 1: {Endurance:50, Intellect:15} } },
-        { n: "Nether Caprahorn", s: ["Earrings","Necklace","Ring"], d: { 1: {Endurance:50, Strength:15} } },
-        { n: "Blackstone Vanguard", s: ["Bracelet (L)","Bracelet (R)","Charm"], d: { 1: {Haste:300} } },
-        { n: "Ruthless Cabbage", s: ["Bracelet (L)","Bracelet (R)","Charm"], d: { 1: {Luck:300} } },
-        { n: "Gloomy Cabbage", s: ["Bracelet (L)","Bracelet (R)","Charm"], d: { 1: {Crit:300} } },
-        { n: "Goblin Shaman", s: ["Bracelet (L)","Bracelet (R)","Charm"], d: { 1: {Versatility:300} } },
-        { n: "Goblin Trickster", s: ["Bracelet (L)","Bracelet (R)","Charm"], d: { 1: {Mastery:300} } },
-        { n: "Frost Lizard", s: ["Bracelet (L)","Bracelet (R)","Charm"], d: { 1: {Strength:12, Crit:140} } },
-        { n: "Magma Lizard", s: ["Bracelet (L)","Bracelet (R)","Charm"], d: { 1: {Strength:12, Haste:140} } },
-        { n: "Gale Lizard", s: ["Bracelet (L)","Bracelet (R)","Charm"], d: { 1: {Strength:12, Luck:140} } },
-        { n: "Lightning Lizard", s: ["Bracelet (L)","Bracelet (R)","Charm"], d: { 1: {Strength:12, Mastery:140} } },
-        { n: "Blackstone Marksman", s: ["Bracelet (L)","Bracelet (R)","Charm"], d: { 1: {Intellect:12, Crit:140} } },
-        { n: "Blackstone Guard", s: ["Bracelet (L)","Bracelet (R)","Charm"], d: { 1: {Intellect:12, Haste:140} } },
-        { n: "Blackstone Warrior", s: ["Bracelet (L)","Bracelet (R)","Charm"], d: { 1: {Intellect:12, Luck:140} } },
-        { n: "Blackstone Assaulter", s: ["Bracelet (L)","Bracelet (R)","Charm"], d: { 1: {Intellect:12, Mastery:140} } },
-        { n: "Goblin Warrior", s: ["Bracelet (L)","Bracelet (R)","Charm"], d: { 1: {Agility:12, Crit:140} } },
-        { n: "Goblin Axeman", s: ["Bracelet (L)","Bracelet (R)","Charm"], d: { 1: {Agility:12, Haste:140} } },
-        { n: "Goblin Priest", s: ["Bracelet (L)","Bracelet (R)","Charm"], d: { 1: {Agility:12, Luck:140} } },
-        { n: "Goblin Guard", s: ["Bracelet (L)","Bracelet (R)","Charm"], d: { 1: {Agility:12, Mastery:140} } }
+        { 
+            n: "Basilisk Sigil", 
+            s: ["Weapon"], 
+            d: { 
+                1: {"All Element Attack": 40},
+                2: {"All Element Attack": 45}, 
+                3: {"All Element Attack": 50}
+            } 
+        },
+        { 
+            n: "Bluespine Lizard", 
+            s: ["Weapon"], 
+            d: { 
+                1: {"All Element Attack": 20},
+                2: {"All Element Attack": 25},
+                3: {"All Element Attack": 30}
+            } 
+        },
+        { 
+            n: "Emerald Caprahorn", 
+            s: ["Weapon","Earrings","Necklace","Ring"], 
+            d: { 
+                1: {Endurance:80, Strength:25},
+                2: {Endurance:90, Strength:30},
+                3: {Endurance:100, Strength:35}
+            } 
+        },
+        { 
+            n: "Blackstone Commander", 
+            s: ["Weapon","Earrings","Necklace","Ring"], 
+            d: { 
+                1: {Endurance:80, Intellect:25},
+                2: {Endurance:90, Intellect:30},
+                3: {Endurance:100, Intellect:35}
+            } 
+        },
+        { 
+            n: "Blackfire Foxen", 
+            s: ["Weapon","Earrings","Necklace","Ring"], 
+            d: { 
+                1: {Endurance:80, Agility:25},
+                2: {Endurance:90, Agility:30},
+                3: {Endurance:100, Agility:35}
+            } 
+        },
+        { 
+            n: "Flamehorn", 
+            s: ["Helmet","Chest","Gloves","Boots"], 
+            d: { 
+                1: {Versatility:500},
+                2: {Versatility:500},
+                3: {Versatility:500}
+            } 
+        },
+        { 
+            n: "Blackstone Captain", 
+            s: ["Helmet","Chest","Gloves","Boots"], 
+            d: { 
+                1: {Mastery:500},
+                2: {Mastery:560},
+                3: {Mastery:600}
+            } 
+        },
+        { 
+            n: "Cabbage Kingpin", 
+            s: ["Helmet","Chest","Gloves","Boots"], 
+            d: { 
+                1: {Luck:500},
+                2: {Luck:560},
+                3: {Luck:600}
+            } 
+        },
+        { 
+            n: "Crimson Foxen", 
+            s: ["Helmet","Chest","Gloves","Boots"], 
+            d: { 
+                1: {Haste:500},
+                2: {Haste:560},
+                3: {Haste:600}
+            } 
+        },
+        { 
+            n: "Goblin Chief", 
+            s: ["Helmet","Chest","Gloves","Boots"], 
+            d: { 
+                1: {Crit:500},
+                2: {Crit:560},
+                3: {Crit:600}
+            } 
+        },
+        { 
+            n: "Cabbage Blaster", 
+            s: ["Helmet","Chest","Gloves","Boots"], 
+            d: { 
+                1: {Versatility:200},
+                2: {Versatility:250},
+                3: {Versatility:300}
+            } 
+        },
+        { 
+            n: "Glimmer Caprahorn", 
+            s: ["Helmet","Chest","Gloves","Boots"], 
+            d: { 
+                1: {Mastery:200},
+                2: {Mastery:250},
+                3: {Mastery:300}
+            } 
+        },
+        { 
+            n: "Cabbage Tough Guy", 
+            s: ["Helmet","Chest","Gloves","Boots"], 
+            d: { 
+                1: {Luck:200},
+                2: {Luck:250},
+                3: {Luck:300}
+            } 
+        },
+        { 
+            n: "Wasteland Foxen", 
+            s: ["Helmet","Chest","Gloves","Boots"], 
+            d: { 
+                1: {Haste:200},
+                2: {Haste:250},
+                3: {Haste:300}
+            } 
+        },
+        { 
+            n: "Cabbage Killer", 
+            s: ["Helmet","Chest","Gloves","Boots"], 
+            d: { 
+                1: {Crit:200},
+                2: {Crit:250},
+                3: {Crit:300}
+            } 
+        },
+        { 
+            n: "Foxen", 
+            s: ["Earrings","Necklace","Ring"], 
+            d: { 
+                1: {Endurance:50, Agility:15},
+                2: {Endurance:60, Agility:20},
+                3: {Endurance:80, Agility:25}
+            } 
+        },
+        { 
+            n: "Cabbage Hunter", 
+            s: ["Earrings","Necklace","Ring"], 
+            d: { 
+                1: {Endurance:50, Intellect:15},
+                2: {Endurance:60, Intellect:20},
+                3: {Endurance:80, Intellect:25}
+            } 
+        },
+        { 
+            n: "Nether Caprahorn", 
+            s: ["Earrings","Necklace","Ring"], 
+            d: { 
+                1: {Endurance:50, Strength:15},
+                2: {Endurance:60, Strength:20},
+                3: {Endurance:80, Strength:25}
+            } 
+        },
+        { 
+            n: "Blackstone Vanguard", 
+            s: ["Bracelet (L)","Bracelet (R)","Charm"], 
+            d: { 
+                1: {Haste:300},
+                2: {Haste:360},
+                3: {Haste:420}
+            } 
+        },
+        { 
+            n: "Ruthless Cabbage", 
+            s: ["Bracelet (L)","Bracelet (R)","Charm"], 
+            d: { 
+                1: {Luck:300},
+                2: {Luck:360},
+                3: {Luck:420}
+            } 
+        },
+        { 
+            n: "Gloomy Cabbage", 
+            s: ["Bracelet (L)","Bracelet (R)","Charm"], 
+            d: { 
+                1: {Crit:300},
+                2: {Crit:360},
+                3: {Crit:420}
+            } 
+        },
+        { 
+            n: "Goblin Shaman", 
+            s: ["Bracelet (L)","Bracelet (R)","Charm"], 
+            d: { 
+                1: {Versatility:300},
+                2: {Versatility:360},
+                3: {Versatility:420}
+            } 
+        },
+        { 
+            n: "Goblin Trickster", 
+            s: ["Bracelet (L)","Bracelet (R)","Charm"], 
+            d: { 
+                1: {Mastery:300},
+                2: {Mastery:360},
+                3: {Mastery:420}
+            } 
+        },
+        { 
+            n: "Frost Lizard", 
+            s: ["Bracelet (L)","Bracelet (R)","Charm"], 
+            d: { 
+                1: {Strength:12, Crit:140},
+                2: {Strength:16, Crit:175},
+                3: {Strength:20, Crit:210}
+            } 
+        },
+        { 
+            n: "Magma Lizard", 
+            s: ["Bracelet (L)","Bracelet (R)","Charm"], 
+            d: { 
+                1: {Strength:12, Haste:140},
+                2: {Strength:16, Haste:175},
+                3: {Strength:20, Haste:210}
+            } 
+        },
+        { 
+            n: "Gale Lizard", 
+            s: ["Bracelet (L)","Bracelet (R)","Charm"], 
+            d: { 
+                1: {Strength:12, Luck:140},
+                2: {Strength:16, Luck:175},
+                3: {Strength:20, Luck:210}
+            } 
+        },
+        { 
+            n: "Lightning Lizard", 
+            s: ["Bracelet (L)","Bracelet (R)","Charm"], 
+            d: { 
+                1: {Strength:12, Mastery:140},
+                2: {Strength:16, Mastery:175},
+                3: {Strength:20, Mastery:210}
+            } 
+        },
+        { 
+            n: "Blackstone Marksman", 
+            s: ["Bracelet (L)","Bracelet (R)","Charm"], 
+            d: { 
+                1: {Intellect:12, Crit:140},
+                2: {Intellect:16, Crit:175},
+                3: {Intellect:20, Crit:210}
+            } 
+        },
+        { 
+            n: "Blackstone Guard", 
+            s: ["Bracelet (L)","Bracelet (R)","Charm"], 
+            d: { 
+                1: {Intellect:12, Haste:140},
+                2: {Intellect:16, Haste:175},
+                3: {Intellect:20, Haste:210}
+            } 
+        },
+        { 
+            n: "Blackstone Warrior", 
+            s: ["Bracelet (L)","Bracelet (R)","Charm"], 
+            d: { 
+                1: {Intellect:12, Luck:140},
+                2: {Intellect:16, Luck:175},
+                3: {Intellect:20, Luck:210}
+            } 
+        },
+        { 
+            n: "Blackstone Assaulter", 
+            s: ["Bracelet (L)","Bracelet (R)","Charm"], 
+            d: { 
+                1: {Intellect:12, Mastery:140},
+                2: {Intellect:16, Mastery:175},
+                3: {Intellect:20, Mastery:210}
+            } 
+        },
+        { 
+            n: "Goblin Warrior", 
+            s: ["Bracelet (L)","Bracelet (R)","Charm"], 
+            d: { 
+                1: {Agility:12, Crit:140},
+                2: {Agility:16, Crit:175},
+                3: {Agility:20, Crit:210}
+            } 
+        },
+        { 
+            n: "Goblin Axeman", 
+            s: ["Bracelet (L)","Bracelet (R)","Charm"], 
+            d: { 
+                1: {Agility:12, Haste:140},
+                2: {Agility:16, Haste:175},
+                3: {Agility:20, Haste:210}
+            } 
+        },
+        { 
+            n: "Goblin Priest", 
+            s: ["Bracelet (L)","Bracelet (R)","Charm"], 
+            d: { 
+                1: {Agility:12, Luck:140},
+                2: {Agility:16, Luck:175},
+                3: {Agility:20, Luck:210}
+            } 
+        },
+        { 
+            n: "Goblin Guard", 
+            s: ["Bracelet (L)","Bracelet (R)","Charm"], 
+            d: { 
+                1: {Agility:12, Mastery:140},
+                2: {Agility:16, Mastery:175},
+                3: {Agility:20, Mastery:210}
+            } 
+        }
     ],
 
     LEGENDARY: ["-", "Attack Speed", "Cast Speed", "ATK/MATK", "Dmg Bonus", "Shield", "Healing Output", "Res Break", "All Res", "Armor", "Max HP"],
@@ -433,7 +713,7 @@ const CFG = {
         CREDITS: "Produced by Luxxos // Updated by: RaoH", 
         NOTES: `
             <div class='val-item'><span>Raid Weapon</span> <span>1966 Primary / 1966 Secondary / Bonus / No Reforge</span></div>
-            <div class='val-item'><span>Raid Armor</span> <span>756 Primary / 756 Secondary / 226 Reforge</span></div>
+            <div class='val-item'><span>Raid Armor</span> <span>1512 Primary / 756 Secondary / 453 Reforge</span></div>
             <div class='val-item'><span>Standard Weapon</span> <span>1512 Primary / 756 Secondary / 453 Reforge</span></div>
             <div class='val-item'><span>Standard Armor</span> <span>756 Primary / 378 Secondary / 226 Reforge</span></div>
         ` 
