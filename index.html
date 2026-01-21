@@ -735,7 +735,7 @@ const app = {
         $('cred').innerText = CFG.TEXT.CREDITS; $('note-txt').innerHTML = CFG.TEXT.NOTES;
         $('spec').innerHTML = Object.keys(CFG.SPECS).map(s => cOpt(s)).join('');
         
-        const tiers = Array.from({length:6},(_,i)=>cOpt(i,`Tier ${i+1}`)).join('');
+        const tiers = Array.from({length:6},(_,i)=>cOpt(i,`Tier ${i}`)).join('');
         const imgs = cOpt("","-")+Object.keys(CFG.IMG.OPTS).map(t=>cOpt(t)).join('');
         CFG.IMG.IDS.forEach(n => { $(`im-t-${n}`).innerHTML = imgs; $(`im-l-${n}`).innerHTML = tiers; });
 
